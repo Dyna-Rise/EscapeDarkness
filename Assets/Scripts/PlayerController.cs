@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
         Vector2 fromPos = transform.position;
 
         //その瞬間のキー入力値(axisH、axisV)に応じた予測座標の取得
-        Vector2 toPos = new Vector2(fromPos.x + axisH,fromPos.y * axisV);
+        Vector2 toPos = new Vector2(fromPos.x + axisH,fromPos.y + axisV);
 
         float angle; //returnされる値の準備
 
