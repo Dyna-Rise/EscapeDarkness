@@ -51,4 +51,36 @@ public class PlayerController : MonoBehaviour
         axisH = Input.GetAxisRaw("Horizontal");
         axisV = Input.GetAxisRaw("Vertical");
     }
+
+    //その時のプレイヤーの角度を取得
+    public float GetAngle()
+    {
+        //現在座標の取得
+        Vector2 fromPos = transform.position;
+
+        //その瞬間のキー入力値(axisH、axisV)に応じた予測座標の取得
+        Vector2 toPos = new Vector2(fromPos.x + axisH,fromPos.y * axisV);
+
+        float angle; //returnされる値の準備
+
+        //もしも何かしらの入力があれば あらたに角度算出
+        if (axisH != 0 || axisV != 0)
+        {
+            float dirX = toPos.x - fromPos.x;
+            float dirY = toPos.y - fromPos.y;
+
+            //第一引数に高さY、第二引数に底辺Xを与えると角度をラジアン形式で算出（円周の長さで表現）
+            float rad = Mathf.Atan2(dirY,dirX);
+
+            //ラジアン値をオイラー値(デグリー）に変換
+            angle = rad * Mathf.Rad2Deg;
+        }
+        //何も入力されていなければ 前フレームの角度情報を据え置き
+        else
+        {
+            angle = angleZ;
+        }
+
+            return angle;
+    }
 }
