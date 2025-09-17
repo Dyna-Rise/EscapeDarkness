@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour
         anime = GetComponent<Animator>();
 
         //スポットライトを所持していればスポットライト表示
+        if (GameManager.hasSpotLight)
+        {
+            spotLight.SetActive(true);
+        }
     }
 
     // Update is called once per frame
