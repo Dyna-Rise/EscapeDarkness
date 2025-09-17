@@ -33,9 +33,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        Move(); //上下左右の入力値の取得
+    }
+
+    private void FixedUpdate()
+    {
+        //入力状況に応じてPlayerを動かす
+        rbody.linearVelocity = (new Vector2(axisH,axisV)).normalized * playerSpeed;
+    }
+
+    //上下左右の入力値の取得
+    public void Move()
+    {
+        //axisHとaxisVに入力状況を代入する
+        axisH = Input.GetAxisRaw("Horizontal");
+        axisV = Input.GetAxisRaw("Vertical");
     }
 }
