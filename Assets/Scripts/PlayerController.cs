@@ -122,4 +122,47 @@ public class PlayerController : MonoBehaviour
             anime.SetBool("run", false); //走るフラグをOFF
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //ぶつかった相手がEnemyだったら
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            GetDamage(collision.gameObject); //ダメージ処理の開始
+        }
+    }
+
+    void GetDamage(GameObject enemy)
+    {
+        //ステータスがplayingでなければ何もせず終わり
+        if (GameManager.gameState != GameState.playing) return;
+
+        GameManager.playerHP--; //プレイヤーHPを1減らす
+
+        if(GameManager.playerHP > 0)
+        {
+            //そこまでのプレイヤーの動きをいったんストップ
+            rbody.linearVelocity = Vector2.zero; //new Vector2(0,0)
+            //プレイヤーと敵との差を取得し、方向を決める
+            Vector3 v = (transform.position - enemy.transform.position).normalized;
+            //決まった方向に押される
+            rbody.AddForce(v * 4, ForceMode2D.Impulse);
+
+            //点滅するためのフラグ
+            inDamage = true;
+
+            //時間差で0.25秒後に点滅フラグ解除
+            Invoke("DamageEnd", 0.25f);
+        }
+        else
+        {
+            //残HPが残っていなければゲームオーバー
+            //GameOver();
+        }
+    }
+
+    void DamageEnd()
+    {
+        inDamage = false; //点滅ダメージフラグを解除
+    }
 }
