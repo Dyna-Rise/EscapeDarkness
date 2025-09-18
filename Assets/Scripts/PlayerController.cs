@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //プレイ中でなれば何もしない
+        if (GameManager.gameState != GameState.playing) return;
+
         Move(); //上下左右の入力値の取得
         angleZ = GetAngle(); //その時の角度を変数angleZに反映
         Animation(); //angleZを利用してアニメーション
@@ -42,6 +45,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //プレイ中でなれば何もしない
+        if (GameManager.gameState != GameState.playing) return;
+
         //ダメージフラグが立っている間
         if (inDamage)
         {
@@ -179,12 +185,27 @@ public class PlayerController : MonoBehaviour
         else
         {
             //残HPが残っていなければゲームオーバー
-            //GameOver();
+            GameOver();
         }
     }
 
     void DamageEnd()
     {
         inDamage = false; //点滅ダメージフラグを解除
+        gameObject.GetComponent<SpriteRenderer>().enabled = true; //プレイヤーを確実に表示
+    }
+
+    void GameOver()
+    {
+        //ゲームの状態を変える
+        GameManager.gameState = GameState.gameover;
+
+        //ゲームオーバー演出
+        GetComponent<CircleCollider2D>().enabled = false; //当たり判定の無効化
+        rbody.linearVelocity = Vector2.zero; //動きを止める
+        rbody.gravityScale = 1.0f; //重力の復活
+        anime.SetTrigger("dead"); //死亡のアニメクリップの発動
+        rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse); //上に跳ね上げる
+        Destroy(gameObject, 1.0f); //1秒後に存在を消去
     }
 }
