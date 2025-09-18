@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     public static bool hasSpotLight; //スポットライトを持っているかどうか
 
-    public static int playerHP; //プレイヤーのHP
+    public static int playerHP = 3; //プレイヤーのHP
 
     void Start()
     {

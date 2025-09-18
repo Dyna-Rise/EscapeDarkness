@@ -42,6 +42,28 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //ダメージフラグが立っている間
+        if (inDamage)
+        {
+            //点滅演出
+            //Sinメソッドの角度情報にゲーム開始からの経過時間を与える
+            float val = Mathf.Sin(Time.time * 50);
+
+            if (val > 0)
+            {
+                //描画機能を有効
+                gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            }
+            else
+            {
+                //描画機能を無効
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            }
+
+            //入力によるvelocityが入らないようここでリターン
+            return;
+        }
+
         //入力状況に応じてPlayerを動かす
         rbody.linearVelocity = (new Vector2(axisH,axisV)).normalized * playerSpeed;
     }
