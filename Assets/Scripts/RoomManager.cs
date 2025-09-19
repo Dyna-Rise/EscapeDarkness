@@ -24,6 +24,7 @@ public class RoomManager : MonoBehaviour
         if (!positioned) //初期配置がまだ
         {
             StartKeysPosition(); //キーの初回配置
+            StartItemsPosition(); //アイテムの初回配置
             positioned = true; //初回配置は済み
         }
     }
@@ -66,7 +67,26 @@ public class RoomManager : MonoBehaviour
         obj = Instantiate(key, keySpot.transform.position, Quaternion.identity);
         //生成したKeyのタイプをkey3に変更
         obj.GetComponent<KeyData>().keyType = KeyType.key3;
-
-
     }
+
+    void StartItemsPosition()
+    {
+        //全部のアイテムスポットを取得
+        GameObject[] itemSpots = GameObject.FindGameObjectsWithTag("ItemSpot");
+
+        for(int i= 0; i < items.Length; i++)
+        {
+            //ランダムな数字の取得
+            //※ただしアイテム割り振り済みの番号を引いたら、ランダム引き直し
+
+            //スポットの全チェック（ランダム値とスポット番号の一致）
+            //一致していれば、そこにアイテムを生成
+
+            //どのスポット番号がどのアイテムに割り当てられているのかを記録
+
+            //生成したアイテムに識別番号を割り振っていく
+
+        }
+    }
+
 }
