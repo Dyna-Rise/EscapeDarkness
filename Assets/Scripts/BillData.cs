@@ -21,12 +21,16 @@ public class BillData : MonoBehaviour
 
             //アイテム取得演出
             //①コライダーを無効化
+            GetComponent<CircleCollider2D>().enabled = false;
 
             //②Rigidbody2Dの復活（Dynamicにする）
+            rbody.bodyType = RigidbodyType2D.Dynamic;
 
             //③上に打ち上げ（上向き5の力）
+            rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
 
-            //④自分自身を抹消（0.5秒後）
+            //④自分自身（オブジェクトごと）を抹消（0.5秒後）
+            Destroy(gameObject, 0.5f);
         }
     }
 }
