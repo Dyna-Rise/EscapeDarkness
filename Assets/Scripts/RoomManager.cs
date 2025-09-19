@@ -30,7 +30,7 @@ public class RoomManager : MonoBehaviour
 
     void StartKeysPosition()
     {
-        //全スポットの取得
+        //全Key1のスポットの取得
         GameObject[] keySpots = GameObject.FindGameObjectsWithTag("KeySpot");
 
         //ランダムに番号を取得 (第一引数以上 第二引数未満）
@@ -48,5 +48,25 @@ public class RoomManager : MonoBehaviour
                 key1PositionNumber = rand;
             }
         }
+
+        //Key2およびKey3の対象スポット
+        GameObject keySpot;
+        GameObject obj; //生成したKey2、およびKey3が入る予定
+
+        //Key2スポットの取得
+        keySpot = GameObject.FindGameObjectWithTag("KeySpot2");
+        //Keyの生成とonjへの格納
+        obj = Instantiate(key,keySpot.transform.position, Quaternion.identity);
+        //生成したKeyのタイプをkey2に変更
+        obj.GetComponent<KeyData>().keyType = KeyType.key2;
+
+        //Key3スポットの取得
+        keySpot = GameObject.FindGameObjectWithTag("KeySpot3");
+        //Keyの生成とonjへの格納
+        obj = Instantiate(key, keySpot.transform.position, Quaternion.identity);
+        //生成したKeyのタイプをkey3に変更
+        obj.GetComponent<KeyData>().keyType = KeyType.key3;
+
+
     }
 }
