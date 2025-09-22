@@ -22,7 +22,8 @@ public class RoomData : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //相手がプレイヤーなら
-        if (collision.gameObject.CompareTag("Player"){
+        if (collision.gameObject.CompareTag("Player"))
+        {
             ChangeScene();
         }
     }
