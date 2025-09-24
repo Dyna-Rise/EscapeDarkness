@@ -136,7 +136,16 @@ public class RoomManager : MonoBehaviour
                     //何番スポットが選ばれたのかstatic変数に記憶していく
                     doorsPositionNumber[i] = rand;
 
-                    DoorSetting(); //生成したドアのセッティング
+                    //生成したドアのセッティング
+                    DoorSetting(
+                        obj, //対象オブジェクト
+                        "fromRoom" + (i + 1), //生成したドアの識別名
+                        "Room" + (i + 1), //そこの出入り口に触れたときどこに行くのか
+                        "Main", //行き先となるシーン名
+                        false, //ドアの開錠の状況
+                        DoorDirection.down, //この出入り口に戻った時のプレイヤーの配置
+                        messages[i]
+                        ); 
                 }
             }
         }
