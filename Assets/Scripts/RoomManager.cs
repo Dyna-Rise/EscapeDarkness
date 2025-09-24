@@ -252,11 +252,58 @@ public class RoomManager : MonoBehaviour
             obj.GetComponent<KeyData>().keyType = KeyType.key2;
         }
 
+        //Key3が未取得だったら
+        if (!GameManager.keysPickedState[2])
+        {
+            //Key3スポットの取得
+            GameObject keySpot3 = GameObject.FindGameObjectWithTag("KeySpot3");
+            //Keyの生成
+            GameObject obj = Instantiate(
+                key,
+                keySpot3.transform.position,
+                Quaternion.identity
+                );
+            //生成したKeyのタイプを変えておく
+            obj.GetComponent<KeyData>().keyType = KeyType.key3;
+        }
+
     }
 
     void LoadItemsPosition()
     {
+        //全部のアイテムスポットを取得
+        GameObject[] itemSpots = GameObject.FindGameObjectsWithTag("ItemSpot");
 
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (!GameManager.itemsPickedState[i]) 
+            { 
+                //スポットの全チェック（ランダム値とスポット番号の一致）
+                //一致していれば、そこにアイテムを生成
+                foreach (GameObject spots in itemSpots)
+                {
+                    if (spots.GetComponent<ItemSpot>().spotNum == itemsPositionNumber[i])
+                    {
+                        GameObject obj = Instantiate(
+                            items[i],
+                            spots.transform.position,
+                            Quaternion.identity
+                            );
+
+                        //生成したアイテムに識別番号を割り振っていく
+                        if (obj.CompareTag("Bill"))
+                        {
+                            obj.GetComponent<BillData>().itemNum = i;
+                        }
+                        else
+                        {
+                            obj.GetComponent<DrinkData>().itemNum = i;
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
     void LoadDoorsPosition()
