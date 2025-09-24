@@ -195,6 +195,26 @@ public class RoomManager : MonoBehaviour
                 }
             }
         }
+
+        //ダミー扉の生成
+        foreach(GameObject spots in roomSpots)
+        {
+            //すでに配置済みかどうか
+            bool match = false;
+
+            foreach(int doorsNum in doorsPositionNumber)
+            {
+                if(spots.GetComponent<RoomSpot>().spotNum == doorsNum)
+                {
+                    match = true; //そのスポット番号にはすでに配置済み
+                    break;
+                }
+            }
+
+            //数字がマッチしていなければこれまで何も配置されていないということなのでダミードアを配置
+            if(!match) Instantiate(dummyDoor,spots.transform.position, Quaternion.identity); 
+        }
+
     }
 
     //生成したドアのセッティング
@@ -338,6 +358,25 @@ public class RoomManager : MonoBehaviour
                         );
                 }
             }
+        }
+
+        //ダミー扉の生成
+        foreach (GameObject spots in roomSpots)
+        {
+            //すでに配置済みかどうか
+            bool match = false;
+
+            foreach (int doorsNum in doorsPositionNumber)
+            {
+                if (spots.GetComponent<RoomSpot>().spotNum == doorsNum)
+                {
+                    match = true; //そのスポット番号にはすでに配置済み
+                    break;
+                }
+            }
+
+            //数字がマッチしていなければこれまで何も配置されていないということなのでダミードアを配置
+            if (!match) Instantiate(dummyDoor, spots.transform.position, Quaternion.identity);
         }
     }
 
