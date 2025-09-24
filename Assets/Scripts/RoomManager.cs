@@ -32,6 +32,12 @@ public class RoomManager : MonoBehaviour
             StartDoorsPosition(); //ドアの初回配置
             positioned = true; //初回配置は済み
         }
+        else //初期配置済みだった場合は配置を再現
+        {
+            LoadKeysPosition(); //キーの配置の再現
+            LoadItemsPosition(); //アイテムの配置の再現
+            LoadDoorsPosition(); //ドアの配置の再現
+        }
     }
 
     void StartKeysPosition()
@@ -205,6 +211,57 @@ public class RoomManager : MonoBehaviour
         roomData.message = message;
 
         roomData.DoorOpenCheck(); //ドアの開閉状況フラグをみてドアを表示/非表示メソッド
+    }
+
+    void LoadKeysPosition()
+    {
+        //Key1が未取得だったら
+        if (!GameManager.keysPickedState[0])
+        {
+            //全Key1スポットの取得
+            GameObject[] keySpots = GameObject.FindGameObjectsWithTag("KeySpot");
+
+            //全スポットを順番に点検
+            foreach(GameObject spots in keySpots)
+            {
+                //記録しているスポットNOと一緒かどうか
+                if(spots.GetComponent<KeySpot>().spotNum == key1PositionNumber)
+                {
+                    //Key1の生成
+                    Instantiate(
+                        key,
+                        spots.transform.position,
+                        Quaternion.identity
+                        );
+                }
+            }
+        }
+
+        //Key2が未取得だったら
+        if (!GameManager.keysPickedState[1])
+        {
+            //Key2スポットの取得
+            GameObject keySpot2 = GameObject.FindGameObjectWithTag("KeySpot2");
+            //Keyの生成
+            GameObject obj = Instantiate(
+                key,
+                keySpot2.transform.position,
+                Quaternion.identity
+                );
+            //生成したKeyのタイプを変えておく
+            obj.GetComponent<KeyData>().keyType = KeyType.key2;
+        }
+
+    }
+
+    void LoadItemsPosition()
+    {
+
+    }
+
+    void LoadDoorsPosition()
+    {
+
     }
 
 }
