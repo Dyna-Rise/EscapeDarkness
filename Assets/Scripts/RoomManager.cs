@@ -1,3 +1,4 @@
+using System.Xml;
 using UnityEngine;
 
 public class RoomManager : MonoBehaviour
@@ -82,13 +83,52 @@ public class RoomManager : MonoBehaviour
         {
             //ランダムな数字の取得
             //※ただしアイテム割り振り済みの番号を引いたら、ランダム引き直し
+            int rand; //ランダムな数の受け皿
+            bool unique; //重複していないかのフラグ
+
+            do
+            {
+                unique = true; //問題なければそのままループを抜ける予定
+                rand = Random.Range(1, (itemSpots.Length + 1)); //1番からスポット数の番号をランダムで取得
+
+                //すでにランダムに取得した番号がどこかのスポットとして割り当てられていないか、doorsPositionNumber配列の状況を全点検
+                foreach (int numbers in itemsPositionNumber)
+                {
+                    //取り出した情報とランダム番号が一致していたら重複したいたということになる
+                    if (numbers == rand)
+                    {
+                        unique = false; //唯一のユニークなものではない
+                        break;
+                    }
+                }
+            } while (!unique);
 
             //スポットの全チェック（ランダム値とスポット番号の一致）
             //一致していれば、そこにアイテムを生成
+            foreach (GameObject spots in itemSpots)
+            {
+                if(spots.GetComponent<ItemSpot>().spotNum == rand)
+                {
+                    GameObject obj = Instantiate(
+                        items[i],
+                        spots.transform.position,
+                        Quaternion.identity
+                        );
 
-            //どのスポット番号がどのアイテムに割り当てられているのかを記録
+                    //どのスポット番号がどのアイテムに割り当てられているのかを記録
+                    itemsPositionNumber[i] = rand;
 
-            //生成したアイテムに識別番号を割り振っていく
+                    //生成したアイテムに識別番号を割り振っていく
+                    if (obj.CompareTag("Bill"))
+                    {
+                        obj.GetComponent<BillData>().itemNum = i;
+                    }
+                    else
+                    {
+                        obj.GetComponent<DrinkData>().itemNum = i;
+                    }
+                }
+            }
 
         }
     }
