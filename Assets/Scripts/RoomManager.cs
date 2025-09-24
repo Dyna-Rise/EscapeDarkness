@@ -308,7 +308,37 @@ public class RoomManager : MonoBehaviour
 
     void LoadDoorsPosition()
     {
+        //全スポットの取得
+        GameObject[] roomSpots = GameObject.FindGameObjectsWithTag("RoomSpot");
 
+        //出入り口(鍵1～鍵3の3つの出入り口）の分だけ繰り返し
+        for (int i = 0; i < doorsPositionNumber.Length; i++)
+        {           
+            //全スポットを見回りして記録された番号と同じスポットを探す
+            foreach (GameObject spots in roomSpots)
+            {
+                if (spots.GetComponent<RoomSpot>().spotNum == doorsPositionNumber[i])
+                {
+                    //ルームを生成
+                    GameObject obj = Instantiate(
+                        room,
+                        spots.transform.position,
+                        Quaternion.identity
+                        );
+
+                    //生成したドアのセッティング
+                    DoorSetting(
+                        obj, //対象オブジェクト
+                        "fromRoom" + (i + 1), //生成したドアの識別名
+                        "Room" + (i + 1), //そこの出入り口に触れたときどこに行くのか
+                        "Main", //行き先となるシーン名
+                        GameManager.doorsOpenedState[i], //ドアの開錠の状況をstaticから読み取る
+                        DoorDirection.down, //この出入り口に戻った時のプレイヤーの配置
+                        messages[i]
+                        );
+                }
+            }
+        }
     }
 
 }
