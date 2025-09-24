@@ -135,9 +135,27 @@ public class RoomManager : MonoBehaviour
 
                     //何番スポットが選ばれたのかstatic変数に記憶していく
                     doorsPositionNumber[i] = rand;
+
+                    DoorSetting(); //生成したドアのセッティング
                 }
             }
         }
+    }
+
+    //生成したドアのセッティング
+    void DoorSetting(GameObject obj,string roomName,string nextRoomName,string sceneName,bool openedDoor,DoorDirection direction,MessageData message)
+    {
+        RoomData roomData = obj.GetComponent<RoomData>();
+        //第一引数に指定したオブジェクトのRoomDataスクリプトの各変数に
+        //第二引数以降で指定した値を代入
+        roomData.roomName = roomName;
+        roomData.nextRoomName = nextRoomName;
+        roomData.nextScene = sceneName;
+        roomData.openedDoor = openedDoor;
+        roomData.direction = direction;
+        roomData.message = message;
+
+        roomData.DoorOpenCheck(); //ドアの開閉状況フラグをみてドアを表示/非表示メソッド
     }
 
 }
