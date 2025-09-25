@@ -37,8 +37,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //プレイ中でなれば何もしない
-        if (GameManager.gameState != GameState.playing) return;
+        //プレイ中またはエンディング中でなれば何もしない
+        if (!(GameManager.gameState == GameState.playing || GameManager.gameState == GameState.ending)) return;
 
         Move(); //上下左右の入力値の取得
         angleZ = GetAngle(); //その時の角度を変数angleZに反映
@@ -47,8 +47,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //プレイ中でなれば何もしない
-        if (GameManager.gameState != GameState.playing) return;
+        //プレイ中またはエンディング中でなれば何もしない
+        if (!(GameManager.gameState == GameState.playing || GameManager.gameState == GameState.ending)) return;
+
 
         //ダメージフラグが立っている間
         if (inDamage)

@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //ゲーム状態を管理する列挙型
 public enum GameState
@@ -32,6 +34,25 @@ public class GameManager : MonoBehaviour
     {
         //まずはゲームは開始状態にする
         gameState = GameState.playing;
+    }
+
+    private void Update()
+    {
+        //ゲームオーバーになったらタイトルに戻る
+        if(gameState == GameState.gameover)
+        {
+            //時間差でシーン切り替え
+            StartCoroutine(TitleBack());
+
+            //Invokeメソッドでも可
+        }
+    }
+
+    //ゲームオーバーの際に発動するコルーチン
+    IEnumerator TitleBack()
+    {
+        yield return new WaitForSeconds(5); //5秒待つ
+        SceneManager.LoadScene("Title"); //タイトルに戻る
     }
 
 }
