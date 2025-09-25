@@ -6,6 +6,8 @@ public class BarrierController : MonoBehaviour
 
     void Start()
     {
+        SoundManager.instance.SEPlay(SEType.Barrier); //バリアが発生した音
+
         //deleteTime秒後に消滅
         Destroy(gameObject, deleteTime);
     }

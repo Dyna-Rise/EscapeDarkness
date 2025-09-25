@@ -178,6 +178,9 @@ public class PlayerController : MonoBehaviour
         //ステータスがplayingでなければ何もせず終わり
         if (GameManager.gameState != GameState.playing) return;
 
+
+        SoundManager.instance.SEPlay(SEType.Damage); //ダメージを受ける音
+
         GameManager.playerHP--; //プレイヤーHPを1減らす
 
         if(GameManager.playerHP > 0)
