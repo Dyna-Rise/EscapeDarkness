@@ -34,6 +34,28 @@ public class GameManager : MonoBehaviour
     {
         //まずはゲームは開始状態にする
         gameState = GameState.playing;
+
+        //シーン名の取得
+        Scene currentScene = SceneManager.GetActiveScene();
+        // シーンの名前を取得
+        string sceneName = currentScene.name;
+
+        switch (sceneName)
+        {
+            case "Title":
+                SoundManager.instance.PlayBgm(BGMType.Title);
+                break;
+            case "Boss":
+                SoundManager.instance.PlayBgm(BGMType.InBoss);
+                break;
+            case "Opening":
+            case "Ending":
+                SoundManager.instance.StopBgm();
+                break;
+            default:
+                SoundManager.instance.PlayBgm(BGMType.InGame);
+                break;
+        }
     }
 
     private void Update()

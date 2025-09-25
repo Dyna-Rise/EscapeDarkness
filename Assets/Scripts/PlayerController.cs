@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
 
     bool isViartual; //ヴァーチャルパッドを触っているかどうかの判断フラグ
 
+    //足音判定
+    float footstepInterval = 0.3f; //足音間隔
+    float footstepTimer; //時間計測
+
     void Start()
     {
         //コンポーネントの取得
@@ -43,6 +47,9 @@ public class PlayerController : MonoBehaviour
         Move(); //上下左右の入力値の取得
         angleZ = GetAngle(); //その時の角度を変数angleZに反映
         Animation(); //angleZを利用してアニメーション
+
+        //足音
+        HandleFootsteps();
     }
 
     private void FixedUpdate()
@@ -234,6 +241,26 @@ public class PlayerController : MonoBehaviour
         else //ヴァーチャルパッドが触られてない（引数が両方0)
         {
             isViartual = false;
+        }
+    }
+
+    //足音
+    void HandleFootsteps()
+    {
+        //プレイヤーが動いていれば
+        if (axisH != 0 || axisV != 0)
+        {
+            footstepTimer += Time.deltaTime; //時間計測
+
+            if (footstepTimer >= footstepInterval) //インターバルチェック
+            {
+                SoundManager.instance.SEPlay(SEType.Walk);
+                footstepTimer = 0;
+            }
+        }
+        else //動いていなければ時間計測リセット
+        {
+            footstepTimer = 0f;
         }
     }
 
